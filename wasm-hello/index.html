@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Python + WebAssembly</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.js"></script>
+  </head>
+  <body>
+    <h1>Hello from Python via WebAssembly</h1>
+    <button id="run">Run Python</button>
+    <pre id="output"></pre>
+
+    <script>
+      let pyodideReady = loadPyodide();
+
+      document.getElementById("run").addEventListener("click", async () => {
+        const pyodide = await pyodideReady;
+
+        const response = await fetch("app.py");
+        const pythonSource = await response.text();
+
+        const result = pyodide.runPython(pythonSource);
+        document.getElementById("output").textContent = result;
+      });
+    </script>
+  </body>
+</html>
+
